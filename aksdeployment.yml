@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: inforiver
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: job-api
+  namespace: inforiver
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - jobs
+  verbs:
+  - '*'
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom # this is the name of the configmap you can overwrite with your changes
+  namespace: kube-system
+data:
+    test.override: | # you may select any name here, but it must end with the .override file extension
+          hosts {
+              172.16.2.4 <storageaccountname>.blob.core.windows.net
+              172.16.2.5 <sqlservername>.database.windows.net
+              172.16.2.6 <rediscachename>.redis.cache.windows.net
+              fallthrough
+                }
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: job-api
+  namespace: inforiver
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: job-api
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: inforiver
+---
+apiVersion: v1
+data:
+  .dockerconfigjson: <docker-secret>
+kind: Secret
+metadata:
+  name: inforiver-docker-secret
+  namespace: inforiver
+type: kubernetes.io/dockerconfigjson
