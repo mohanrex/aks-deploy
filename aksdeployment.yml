@@ -24,9 +24,9 @@ metadata:
 data:
     test.override: | # you may select any name here, but it must end with the .override file extension
           hosts {
-              172.16.2.4 <storageaccountname>.blob.core.windows.net
-              172.16.2.5 <sqlservername>.database.windows.net
-              172.16.2.6 <rediscachename>.redis.cache.windows.net
+              172.16.2.4 ${STORAGE_NAME}.blob.core.windows.net
+              172.16.2.5 ${SQL_SERVER_NAME}.database.windows.net
+              172.16.2.6 ${REDIS_NAME}.redis.cache.windows.net
               fallthrough
                 }
 ---
@@ -46,7 +46,7 @@ subjects:
 ---
 apiVersion: v1
 data:
-  .dockerconfigjson: <docker-secret>
+  .dockerconfigjson: ${DOCKER_SECRET}
 kind: Secret
 metadata:
   name: inforiver-docker-secret
