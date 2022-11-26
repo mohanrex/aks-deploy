@@ -52,3 +52,251 @@ metadata:
   name: inforiver-docker-secret
   namespace: inforiver
 type: kubernetes.io/dockerconfigjson
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inforiver-audit
+  namespace: inforiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inforiver-audit
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: inforiver-audit
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_PORTAL_URL
+          value: "<ADMIN_PORTAL_URL>"
+        image: turing.azurecr.io/turing-audit:OPV1.6.5.0
+        imagePullPolicy: Always
+        name: inforiver-audit
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: inforiver-docker-secret
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inforiver-comment-worker
+  namespace: inforiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inforiver-comment-worker
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: inforiver-comment-worker
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_PORTAL_URL
+          value: "<ADMIN_PORTAL_URL>"
+        - name: ADMIN_PORTAL_URL
+          value: "turing:comment-immediate"
+        - name: WORKER_LISTENER_MODE
+          value: commet
+        image: turing.azurecr.io/turing-worker:OPV1.6.5.0
+        imagePullPolicy: Always
+        name: inforiver-comment-worker
+        resources:
+          limits:
+            cpu: 250m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      imagePullSecrets:
+      - name: inforiver-docker-secret
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inforiver-cron
+  namespace: inforiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inforiver-cron
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: inforiver-cron
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_PORTAL_URL
+          value: "<ADMIN_PORTAL_URL>"
+        - name: CONTAINER_IMAGE
+          value: turing.azurecr.io/turing-worker:V1.7.7.0
+        image: turing.azurecr.io/turing-cron:OPV1.6.5.0
+        imagePullPolicy: Always
+        name: inforiver-cron
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: inforiver-docker-secret
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inforiver-orchestrator
+  namespace: inforiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inforiver-orchestrator
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: inforiver-orchestrator
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_PORTAL_URL
+          value: "<ADMIN_PORTAL_URL>"
+        - name: VISUAL_WORKER_CONTAINER_IMAGE
+          value: turing.azurecr.io/turing-visual-worker:V1.7.7.0
+        - name: CONTAINER_IMAGE
+          value: turing.azurecr.io/turing-worker:V1.7.7.0
+        image: turing.azurecr.io/turing-orchestrator:OPV1.6.5.0
+        imagePullPolicy: Always
+        name: inforiver-orchestrator
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: inforiver-docker-secret
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inforiver-worker
+  namespace: inforiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inforiver-worker
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: inforiver-worker
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_PORTAL_URL
+          value: "<ADMIN_PORTAL_URL>"
+        - name: WORKER_QUEUE_NAME
+          value: "turing:email-notification"
+        image: turing.azurecr.io/turing-worker:OPV1.6.5.0
+        imagePullPolicy: Always
+        name: inforiver-worker
+        resources:
+          limits:
+            cpu: 250m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      imagePullSecrets:
+      - name: inforiver-docker-secret
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inforiver-writeback-worker
+  namespace: inforiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inforiver-writeback-worker
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: inforiver-writeback-worker
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_PORTAL_URL
+          value: "<ADMIN_PORTAL_URL>"
+        image: turing.azurecr.io/turing-writeback-worker:OPV1.6.5.0
+        imagePullPolicy: Always
+        name: turing-writeback-worker
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: inforiver-docker-secret
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 2000
+      terminationGracePeriodSeconds: 30
