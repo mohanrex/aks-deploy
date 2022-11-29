@@ -24,9 +24,9 @@ metadata:
 data:
     test.override: | # you may select any name here, but it must end with the .override file extension
           hosts {
-              172.16.2.4 <STORAGE_NAME>.blob.core.windows.net
-              172.16.2.5 <SQL_SERVER_NAME>.database.windows.net
-              172.16.2.6 <REDIS_NAME>.redis.cache.windows.net
+              <STORAGE_IP> <STORAGE_NAME>.blob.core.windows.net
+              <SQL_SERVER_IP> <SQL_SERVER_NAME>.database.windows.net
+              <REDIS_IP> <REDIS_NAME>.redis.cache.windows.net
               fallthrough
                 }
 ---
