@@ -116,7 +116,7 @@ spec:
       - env:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
-        - name: ADMIN_PORTAL_URL
+        - name: COMMENTWORKER_QUEUE_NAME
           value: "turing:comment-immediate"
         - name: WORKER_LISTENER_MODE
           value: commet
