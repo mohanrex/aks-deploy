@@ -77,7 +77,7 @@ spec:
       - env:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
-        image: turing.azurecr.io/turing-audit:OPV1.7.7.0
+        image: turing.azurecr.io/turing-audit:OPV1.8.0.2
         imagePullPolicy: Always
         name: inforiver-audit
         resources:
@@ -118,7 +118,7 @@ spec:
           value: <ADMIN_PORTAL_URL>
         - name: SERVICE_NAME
           value: commentWorker
-        image: turing.azurecr.io/turing-worker:OPV1.7.7.0
+        image: turing.azurecr.io/turing-worker:OPV1.8.0.2
         imagePullPolicy: Always
         name: inforiver-comment-worker
         resources:
@@ -158,8 +158,8 @@ spec:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
         - name: CONTAINER_IMAGE
-          value: turing.azurecr.io/turing-worker:V1.7.7.0
-        image: turing.azurecr.io/turing-cron:OPV1.7.7.0
+          value: turing.azurecr.io/turing-worker:OPV1.8.0.2
+        image: turing.azurecr.io/turing-cron:OPV1.8.0.2
         imagePullPolicy: Always
         name: inforiver-cron
         resources:
@@ -199,10 +199,10 @@ spec:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
         - name: VISUAL_WORKER_CONTAINER_IMAGE
-          value: turing.azurecr.io/turing-visual-worker:V1.7.7.0
+          value: turing.azurecr.io/turing-visual-worker:OPV1.8.0.2
         - name: CONTAINER_IMAGE
-          value: turing.azurecr.io/turing-worker:V1.7.7.0
-        image: turing.azurecr.io/turing-orchestrator:OPV1.7.7.0
+          value: turing.azurecr.io/turing-worker:OPV1.8.0.2
+        image: turing.azurecr.io/turing-orchestrator:OPV1.8.0.2
         imagePullPolicy: Always
         name: inforiver-orchestrator
         resources:
@@ -241,7 +241,7 @@ spec:
       - env:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
-        image: turing.azurecr.io/turing-worker:OPV1.7.7.0
+        image: turing.azurecr.io/turing-worker:OPV1.8.0.2
         imagePullPolicy: Always
         name: inforiver-worker
         resources:
@@ -280,7 +280,7 @@ spec:
       - env:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
-        image: turing.azurecr.io/turing-writeback-worker:OPV1.7.7.0
+        image: turing.azurecr.io/turing-writeback-worker:OPV1.8.0.2
         imagePullPolicy: Always
         name: turing-writeback-worker
         resources:
