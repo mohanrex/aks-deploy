@@ -116,10 +116,8 @@ spec:
       - env:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
-        - name: COMMENTWORKER_QUEUE_NAME
-          value: "turing:comment-immediate"
-        - name: WORKER_LISTENER_MODE
-          value: commet
+        - name: SERVICE_NAME
+          value: commentWorker
         image: turing.azurecr.io/turing-worker:OPV1.7.7.0
         imagePullPolicy: Always
         name: inforiver-comment-worker
@@ -243,8 +241,6 @@ spec:
       - env:
         - name: ADMIN_PORTAL_URL
           value: <ADMIN_PORTAL_URL>
-        - name: WORKER_QUEUE_NAME
-          value: "turing:email-notification"
         image: turing.azurecr.io/turing-worker:OPV1.7.7.0
         imagePullPolicy: Always
         name: inforiver-worker
